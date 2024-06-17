@@ -1,17 +1,34 @@
-import React from 'react'
-import { StyleSheet, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
+import { Alert, StyleSheet, TextInput, View } from 'react-native'
 import PrimaryButton from '../components/PrimaryButton'
+import Colors from '../constants/colors';
 
-const StartGameScreen = () => {
+const StartGameScreen = ({pickedUserNumber}) => {
+  const [enteredNumber,setEnteredNumber] = useState('');
+  const handleEnteredNumber =(enterText)=>{
+    setEnteredNumber(enterText);
+  }
+  const resetEnterNumber = ()=>{
+    setEnteredNumber('')
+  }
+  const confirmEnterNumber = ()=>{
+    const chosenNumber = +enteredNumber
+    if(isNaN(chosenNumber) ||  chosenNumber<= 0 || chosenNumber > 99){
+      Alert.alert("Invalid number","number should be between 0 and 99",[{text:'Okay',style:'destructive',onPress:resetEnterNumber}])
+      return;
+    }
+    pickedUserNumber(chosenNumber)
+  }
+  
   return (
     <View style={styles.inputContainer}>
-      <TextInput style={styles.numberInput}  maxLength={2} keyboardType='number-pad'/>
+      <TextInput style={styles.numberInput}  maxLength={2} keyboardType='number-pad' value={enteredNumber} onChangeText={handleEnteredNumber}/>
       <View style={styles.buttons}>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Reset</PrimaryButton>
+          <PrimaryButton onClick={resetEnterNumber}>Reset</PrimaryButton>
         </View>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Confirm</PrimaryButton>
+          <PrimaryButton onClick={confirmEnterNumber}>Confirm</PrimaryButton>
         </View>
       </View>
     </View>
@@ -24,7 +41,7 @@ const styles = StyleSheet.create({
   inputContainer:{
     marginTop:100,
     padding:16,
-    backgroundColor:"#4e0329",
+    backgroundColor:Colors.primary800,
     marginHorizontal:24,
     borderRadius:8,
     elevation:4,
@@ -38,9 +55,9 @@ const styles = StyleSheet.create({
     width:50,
     marginHorizontal:'auto',
     fontSize:32,
-    borderBottomColor:'#ddb52f',
+    borderBottomColor:Colors.accent500,
     borderBottomWidth:2,
-    color:'#ddb52f',
+    color:Colors.accent500,
     marginVertical:8,
     fontWeight:'bold',
     textAlign:'center'

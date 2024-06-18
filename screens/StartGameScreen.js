@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, TextInput, View } from 'react-native'
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import PrimaryButton from '../components/PrimaryButton'
 import Colors from '../constants/colors';
+import Title from '../components/Title';
+import Card from '../components/Card';
+import InstrcutionText from '../components/instrcutionText';
 
 const StartGameScreen = ({pickedUserNumber}) => {
   const [enteredNumber,setEnteredNumber] = useState('');
@@ -21,16 +24,20 @@ const StartGameScreen = ({pickedUserNumber}) => {
   }
   
   return (
-    <View style={styles.inputContainer}>
-      <TextInput style={styles.numberInput}  maxLength={2} keyboardType='number-pad' value={enteredNumber} onChangeText={handleEnteredNumber}/>
-      <View style={styles.buttons}>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onClick={resetEnterNumber}>Reset</PrimaryButton>
+    <View style={styles.rootContainer}>
+      <Title title="Guess My Number"/>
+      <Card>
+      <InstrcutionText>Enter a number</InstrcutionText>
+        <TextInput style={styles.numberInput}  maxLength={2} keyboardType='number-pad' value={enteredNumber} onChangeText={handleEnteredNumber}/>
+        <View style={styles.buttons}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onClick={resetEnterNumber}>Reset</PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onClick={confirmEnterNumber}>Confirm</PrimaryButton>
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onClick={confirmEnterNumber}>Confirm</PrimaryButton>
-        </View>
-      </View>
+      </Card>
     </View>
   )
 }
@@ -38,18 +45,11 @@ const StartGameScreen = ({pickedUserNumber}) => {
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
-  inputContainer:{
+  rootContainer:{
+    flex:1,
     marginTop:100,
-    padding:16,
-    backgroundColor:Colors.primary800,
-    marginHorizontal:24,
-    borderRadius:8,
-    elevation:4,
-    shadowColor:'black',
-    shadowOffset:{width:0,height:2},
-    shadowRadius:6,
-    shadowOpacity:0.25
   },
+  
   numberInput:{
     height:50,
     width:50,
@@ -70,5 +70,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer:{
     flex:1
-  }
+  },
+  
 })
